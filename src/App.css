@@ -31,3 +31,38 @@
     transform: rotate(360deg);
   }
 }
+
+
+.MuiAppBar-colorPrimary {
+  color: #fff;
+  background-color: #39a591a1;
+}
+
+.nav-item{
+  font-size: 20px;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media screen and (min-width: 768px)
+{
+  .jumbotron {
+    padding-top: 0px;
+  }
+ 
+}
+
+@media (min-width: 1400px)
+{
+  .container {
+    margin-top: 90px;
+    width: max-content;
+}
+}
+
