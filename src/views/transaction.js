@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import MUIDataTable from "mui-datatables";
 import Sidebar from '../common/drawer';
 import Header from '../common/header';
-import '../App.css'
-
+import '../App.css';
+import api from '../api/index'
+import { Button } from 'react-bootstrap'
 class Transaction extends Component {
     constructor(props) {
         super(props)
@@ -13,14 +14,24 @@ class Transaction extends Component {
             email: '',
             phoneNo: '',
             date: '',
-            occupation: ''
+            occupation: '',
+            transactionData: '',
         }
     }
 
     componentDidMount() {
-        console.log("data")
+        api.app.get("/transactions")
+            .then(res => {
+                //on success
+                console.log()
+                this.setState({
+                    transactionData: res.data
+                });
+            }).catch((error) => {
+                //on error
+                alert("There is an error in API call.");
+            });
     }
-
     handleClick() {
         window.location.replace('/newtransaction')
     }
@@ -73,13 +84,6 @@ class Transaction extends Component {
 
     render() {
         const columns = ["ID", "Category", "Date", "Amount"];
-        const transactionData = [
-            ["1", "Yonkers",  "20-2-2019", "100.00"],
-            ["2", "Hartford", "21-3-2019", "101.00"],
-            ["3", "Tampa",    "22-4-2019", "102.00"],
-            ["4", "Dallas",   "23-5-2019", "103.00"],
-            ["5", "Dallas",   "24-6-2019", "104.00"],
-        ];
 
         const options = {
             filterType: 'checkbox',
@@ -90,25 +94,48 @@ class Transaction extends Component {
             <div className="content">
                 <Sidebar />
                 <Header />
-                <div className="row">
                     <div className="col-md-10" style={{ marginLeft: 250, padding: 38 }}>
+                    <Button className="new-button pull-right" onClick={this.handleClick.bind(this)} variant="primary" type="submit">
+                                    New Transaction
+                          </Button>
                         <div className="card" style={{ marginTop: 70 }}>
-                            <button type="submit" className="btn btn-default pull-right" onClick={this.handleClick.bind(this)}>New Transaction</button>
-
-                            <div className="card-header card-header-primary">
+                        
+                               <div className="card-header card-header-primary">
                                 <h2 className="card-title">Transaction</h2>
                             </div>
+
                             <div className="card-body">
+                                <div className="row">
+                                    <div className="form-group label">
+                                        <label>Name:</label> {this.state.name}
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="form-group label">
+                                        <label>Account No:</label> {this.state.name}
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="form-group label">
+                                        <label>Account Type:</label> {this.state.name}
+                                    </div>
+                                </div>
+
+                                <div className="row">
+                                    <div className="form-group label">
+                                        <label>Account Balance:</label> {this.state.name}
+                                    </div>
+                                </div>
+                                <br />
                                 <MUIDataTable
                                     title={"Transaction"}
-                                    data={transactionData}
+                                    //data={this.state.transactionData}
                                     columns={columns}
                                     options={options} />
                             </div>
                         </div>
                     </div>
                 </div>
-            </div >
         )
     }
 }
